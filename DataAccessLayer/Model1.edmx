@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MVCDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="LocationInformation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="SchoolInformationId" Type="int" Nullable="false" />
+          <Property Name="Location" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SchoolInformation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_LocationInformation_SchoolInformation">
+          <End Role="SchoolInformation" Type="Self.SchoolInformation" Multiplicity="1" />
+          <End Role="LocationInformation" Type="Self.LocationInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SchoolInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LocationInformation">
+              <PropertyRef Name="SchoolInformationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MVCDbModelStoreContainer">
+          <EntitySet Name="LocationInformation" EntityType="Self.LocationInformation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SchoolInformation" EntityType="Self.SchoolInformation" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_LocationInformation_SchoolInformation" Association="Self.FK_LocationInformation_SchoolInformation">
+            <End Role="SchoolInformation" EntitySet="SchoolInformation" />
+            <End Role="LocationInformation" EntitySet="LocationInformation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MVCDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="LocationInformation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="SchoolInformationId" Type="Int32" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SchoolInformation" Relationship="Self.FK_LocationInformation_SchoolInformation" FromRole="LocationInformation" ToRole="SchoolInformation" />
+        </EntityType>
+        <EntityType Name="SchoolInformation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="LocationInformations" Relationship="Self.FK_LocationInformation_SchoolInformation" FromRole="SchoolInformation" ToRole="LocationInformation" />
+        </EntityType>
+        <Association Name="FK_LocationInformation_SchoolInformation">
+          <End Role="SchoolInformation" Type="Self.SchoolInformation" Multiplicity="1" />
+          <End Role="LocationInformation" Type="Self.LocationInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SchoolInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LocationInformation">
+              <PropertyRef Name="SchoolInformationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MVCDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="LocationInformations" EntityType="Self.LocationInformation" />
+          <EntitySet Name="SchoolInformations" EntityType="Self.SchoolInformation" />
+          <AssociationSet Name="FK_LocationInformation_SchoolInformation" Association="Self.FK_LocationInformation_SchoolInformation">
+            <End Role="SchoolInformation" EntitySet="SchoolInformations" />
+            <End Role="LocationInformation" EntitySet="LocationInformations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MVCDbModelStoreContainer" CdmEntityContainer="MVCDbEntities">
+          <EntitySetMapping Name="LocationInformations">
+            <EntityTypeMapping TypeName="MVCDbModel.LocationInformation">
+              <MappingFragment StoreEntitySet="LocationInformation">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SchoolInformationId" ColumnName="SchoolInformationId" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SchoolInformations">
+            <EntityTypeMapping TypeName="MVCDbModel.SchoolInformation">
+              <MappingFragment StoreEntitySet="SchoolInformation">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
